@@ -1,0 +1,35 @@
+{
+  "name": "express-base",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "db:migrate": "sequelize db:migrate",
+    "db:rollback": "sequelize db:migrate:undo:all",
+    "db:fresh": "npm run db:rollback && npm run db:migrate && npm run db:seed",
+    "db:seed": "sequelize db:seed:all",
+    "make:migration": "node src/utils/makeMigration.js",
+    "make:module": "node src/utils/makeModule.js"
+    
+
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mysql2": "^3.15.3",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "sequelize-cli": "^6.6.3"
+  }
+}
