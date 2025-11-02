@@ -29,11 +29,12 @@ if (!fs.existsSync(controllerPath)) {
 
 // ✅ Response helper
 const response = (res, statusCode, message, data = null) => {
+  const isArray = Array.isArray(data);
   res.status(statusCode).json({
     status: statusCode >= 200 && statusCode < 300 ? 'success' : 'error',
     statusCode,
     message,
-    data,
+    ...(isArray ? { datas: data } : { data }),
   });
 };
 
@@ -140,4 +141,4 @@ export default router;
   console.log(`Route created: src/routes/${lowerName}.routes.js`);
 }
 
-console.log(`Module "${name}" created successfully with status-based responses!`);
+console.log(`Module "${name}" created successfully with status-based responses (data/datas)!`);
