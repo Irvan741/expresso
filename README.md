@@ -1,167 +1,170 @@
-# Expresso
+# 🚀 Expresso — Express with a Taste of Laravel
 
-**Expresso** – Laravel-style MVC starter kit for Node.js, built with Express and Sequelize.
-
----
-
-## Short Description
-
-Expresso – the fast lane for Node.js REST APIs. A Laravel-inspired MVC starter with Express & Sequelize, ready-made generators, structured responses, and seamless DB setup. Build APIs smarter, faster, and cleaner from day one.
+Expresso is a lightweight Express.js starter kit designed to bring Laravel-style structure, commands, and conventions into the Node.js ecosystem.  
+It focuses on **developer speed**, **clean code architecture**, and **consistency** across controllers, services, routes, and database migrations.
 
 ---
 
-## Installation
+## 📦 Features
 
-1. Clone the repository:
+- 🔹 **Laravel-inspired CLI commands**
+  - Generate migrations and models automatically.
+  - Create full modules (controller + service + route) with one command.
+- 🔹 **Sequelize ORM** integration for database access.
+- 🔹 **Automatic response structure** (`data` or `datas` based on result type).
+- 🔹 **Organized project structure**
+  - `src/controllers`
+  - `src/services`
+  - `src/routes`
+  - `src/models`
+- 🔹 **Development server with Nodemon**
+- 🔹 **Database migration and seeding utilities**
+
+---
+
+## 🧱 Project Structure
+
 ```
-git clone <repo-url>
-cd <project-folder>
+.
+├── migrations/                 # Sequelize migration files (.cjs)
+├── src/
+│   ├── config/                 # Database configuration
+│   ├── controllers/            # Controller layer (auto-generated)
+│   ├── services/               # Business logic layer
+│   ├── routes/                 # Route definitions
+│   ├── models/                 # Sequelize models
+│   └── utils/                  # Custom utility scripts (CLI)
+├── package.json
+└── README.md
 ```
 
-2. Install dependencies:
-```
+---
+
+## ⚙️ Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/yourusername/expresso.git
+
+# 2. Navigate into the project
+cd expresso
+
+# 3. Install dependencies
 npm install
-```
 
-3. Create `.env` file in the root directory:
-```
-DB_HOST=localhost
-DB_NAME=your_db
-DB_NAME_TEST=your_test_db
-DB_USER=root
-DB_PASS=secret
-PORT=3000
-```
-
-4. Start development server:
-```
-npm run dev
+# 4. Set up your environment
+cp .env.example .env
 ```
 
 ---
 
-## Features
+## 🧩 Available Commands
 
-- Laravel-style MVC architecture (Controllers, Services, Models, Routes)
-- Generator scripts for migrations, models, controllers, services, and routes
-- Sequelize ORM with MySQL support
-- Consistent API response format with `status`, `statusCode`, `message`, and `data`
-- Migration and seeder management (`db:migrate`, `db:seed`, `db:fresh`)
-- Modern ES module support (`import/export`)
-- Rapid module creation workflow
-
----
-
-## Project Structure
-
-```
-src/
-├── config/
-│   ├── database.js
-│   └── sequelize/
-│       └── sequelizeConfig.cjs
-├── controllers/
-├── models/
-├── routes/
-├── services/
-├── seeders/
-├── utils/
-│   ├── makeMigration.js
-│   └── makeModule.js
-└── server.js
-migrations/
-.env
-package.json
-```
+| Command | Description |
+|----------|--------------|
+| `npm run dev` | Run the server in development mode (using nodemon) |
+| `npm start` | Run the server in production mode |
+| `npm run db:migrate` | Run all database migrations |
+| `npm run db:rollback` | Roll back all migrations |
+| `npm run db:seed` | Run all seeders |
+| `npm run db:fresh` | Rollback, migrate, and seed from scratch |
+| `npm run make:migration <Name> [-m]` | Create a new migration (and model if `-m` flag is used) |
+| `npm run make:module <Name>` | Generate a new CRUD module (Controller + Service + Route) |
 
 ---
 
-## Generator Commands
+## 🧰 Examples
 
-**Migration & Model:**
-```
-npm run make:migration <ModuleName> -m
-```
-Creates migration + model.
+### Create a Migration
 
-**Controller + Service + Route:**
-```
-npm run make:module <ModuleName>
-```
-Creates controller, service, and route for a module.
-
-**Database Commands:**
-```
-npm run db:migrate   # Run migrations
-npm run db:seed      # Run seeders
-npm run db:fresh     # Drop all tables + migrate + seed
-```
-
-**Server:**
-```
-npm run dev          # Start dev server with nodemon
-```
-
----
-
-## API Response Format
-
-- Success response:
-```
-{
-  status: "success",
-  statusCode: 200,
-  message: "Descriptive message",
-  data: {...} // optional
-}
-```
-
-- Error response:
-```
-{
-  status: "error",
-  statusCode: 400,
-  message: "Error message",
-  data: null
-}
-```
-
----
-
-## Example Usage
-
-**Register routes in `server.js`:**
-```
-import express from 'express';
-import projectRoutes from './routes/project.route.js';
-
-const app = express();
-app.use(express.json());
-app.use('/api/projects', projectRoutes);
-
-app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));
-```
-
-**Create a new module:**
-```
+```bash
 npm run make:migration Project -m
-npm run make:module Project
 ```
-This will create the migration, model, controller, service, and route for `Project`.
+
+➡️ Creates:
+- `migrations/20251102123456-create-projects-table.cjs`
+- `src/models/Project.js`
 
 ---
 
-## Dependencies
+### Create a Module
 
-- express
-- sequelize
-- mysql2
-- dotenv
-- nodemon (dev)
+```bash
+npm run make:module User
+```
+
+➡️ Creates:
+- `src/controllers/user.controller.js`
+- `src/services/user.service.js`
+- `src/routes/user.route.js`
 
 ---
 
-## Why Expresso?
+## 🧠 Response Structure
 
-Expresso is designed for developers who want the **speed and organization of Laravel** while working in Node.js. It reduces boilerplate, standardizes responses, and provides a rapid workflow for REST API development. Perfect for small to medium projects, rapid prototyping, or learning MVC patterns in Node.js.
+All responses follow a consistent format:
 
+### Success (Single Data)
+```json
+{
+  "status": "success",
+  "statusCode": 200,
+  "message": "Fetched user successfully",
+  "data": {
+    "id": 1,
+    "name": "John Doe"
+  }
+}
+```
+
+### Success (Multiple Data)
+```json
+{
+  "status": "success",
+  "statusCode": 200,
+  "message": "Fetched all users successfully",
+  "datas": [
+    { "id": 1, "name": "John Doe" },
+    { "id": 2, "name": "Jane Smith" }
+  ]
+}
+```
+
+### Error
+```json
+{
+  "status": "error",
+  "statusCode": 404,
+  "message": "User not found"
+}
+```
+
+---
+
+## 🗄️ Tech Stack
+
+- **Express.js** — Web framework
+- **Sequelize** — ORM for MySQL
+- **Nodemon** — Auto-restart for development
+- **dotenv** — Environment configuration
+- **bcrypt** — Password hashing
+- **CORS** — Cross-origin middleware
+
+---
+
+## 🧑‍💻 Author
+
+**Irvan Syapar**  
+Creator of **Expresso**, bringing the power of Laravel conventions to Express.js.  
+Feel free to contribute or fork the project!
+
+---
+
+## 🪪 License
+
+This project is licensed under the **ISC License**.  
+You’re free to use, modify, and distribute it with proper attribution.
+
+---
+
+> ☕ “Brew your Express apps the Laravel way — with Expresso.”
